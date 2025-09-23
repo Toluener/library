@@ -2,7 +2,7 @@ const axios = require("axios");
 require("dotenv").config();
 const path = require("path");
 const admin = require("firebase-admin");
-const serviceAccount =  require(path.join(__dirname, "../", "serviceAccountKey.json"));
+const serviceAccount =  require(path.join(__dirname, "serviceAccountKey.json"));
 
 
 if (!admin.apps.length) {
