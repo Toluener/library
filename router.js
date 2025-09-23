@@ -57,13 +57,13 @@ router.post("/signIn", async (req, res)=>{
 
         const{idToken} = response
 
-        res.cookie("token", idToken, {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax",
-            path: "/",
-            maxAge: 3600000
-        });
+       res.cookie("token", idToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/",
+        maxAge: 3600000
+      });
 
         res.status(200).json({success: true, message: "signed In"});
    }catch(err){
