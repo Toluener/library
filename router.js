@@ -59,7 +59,7 @@ router.post("/signIn", async (req, res)=>{
 
        res.cookie("token", idToken, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "none",
         path: "/",
         maxAge: 3600000
