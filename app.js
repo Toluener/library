@@ -8,9 +8,14 @@ const cors = require("cors");
 
 const app = express();
 
+const allowedOrigins = [
+  'http://localhost:3000',              
+  'https://library-fe-six.vercel.app'   
+];
+
 //setting up cors
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: allowedOrigins,
     credentials: true
 }));
 
