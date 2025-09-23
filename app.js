@@ -23,9 +23,11 @@ app.use(router);
 //connecting to mongoDB database
 connectDB();
 
+const PORT = process.env.PORT || 6001;
+
 
 
 //assigning the server a port to listen for requests
-app.listen(6001, ()=>{
+app.listen(PORT, ()=>{
     console.log("Server is running");
 })
