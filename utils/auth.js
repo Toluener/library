@@ -8,7 +8,7 @@ const serviceAccount =  require(path.join(__dirname, "serviceAccountKey.json"));
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    storageBucket: "gs://library-app-lf.firebasestorage.app"
+    storageBucket: process.env.FIREBASE_SB
   });
   console.log("Admin initialised");
 }else{
