@@ -72,6 +72,23 @@ router.post("/signIn", async (req, res)=>{
 })
 
 
+app.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).json({ success: false, message: "Logout failed" });
+    }
+    
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+    return res.json({ success: true, message: "Logged out successfully" });
+  });
+});
+
+
 router.get("/getUser", authenticateUser, async (req, res)=>{
     try{
         console.log('Trying to get user');
