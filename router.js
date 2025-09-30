@@ -83,7 +83,9 @@ router.post("/logout", (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
+      path: "/"
     });
+    router.replace("/");
     return res.json({ success: true, message: "Logged out successfully" });
   });
 });
