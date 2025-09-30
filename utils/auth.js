@@ -41,7 +41,6 @@ const registerUser = async (email, password)=>{
 
             console.error("Error registering user:", errorMessage);
 
-            // Map Firebase errors to user-friendly messages
             let friendlyMessage;
             switch (errorMessage) {
                 case "INVALID_EMAIL":
@@ -130,9 +129,8 @@ const authenticateUser = async (req, res, next) => {
         return res.status(401).json({ success: false, message: "No token, unauthorized" });
         }
 
-        // verify with Firebase
         const decoded = await admin.auth().verifyIdToken(token);
-        req.user = decoded; // attach user info to request
+        req.user = decoded;
         next();
     } catch (err) {
         return res.status(401).json({ success: false, message: "Invalid or expired token" });

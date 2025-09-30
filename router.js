@@ -15,7 +15,6 @@ router.use(cookieParser());
 const upload = multer({ storage: multer.memoryStorage() });
 
 
-//Route for registering users
 
 router.post("/register", async (req, res)=>{
     const {idno, email, password} = req.body;
@@ -163,7 +162,7 @@ router.post("/removeBookmark", authenticateUser, async (req, res) => {
   }
 });
 
-router.put("/editBooks", async (req, res) => {
+router.put("/editBooks", authenticateUser, async (req, res) => {
   try {
     const { id, ...updateData } = req.body; 
 
@@ -185,7 +184,7 @@ router.put("/editBooks", async (req, res) => {
 });
 
 
-router.delete("/deleteBooks", async (req, res) => {
+router.delete("/deleteBooks", authenticateUser, async (req, res) => {
   try {
     const { id } = req.body;
 
@@ -206,7 +205,7 @@ router.delete("/deleteBooks", async (req, res) => {
   }
 });
 
-router.post("/upload", upload.single("file"), 
+router.post("/upload", authenticateUser, upload.single("file"), 
 async (req, res) => {
    try {
       const { id, title, author, genre, publishedYear, language, pages, description, tags } = req.body;
@@ -235,13 +234,11 @@ async (req, res) => {
       });
 
       blobStream.on("finish", async () => {
-        // Make file public OR generate signed URL
         const [fileUrl] = await blob.getSignedUrl({
           action: "read",
           expires: "03-09-2030",
         });
 
-        // Save metadata in MongoDB
         const newBook = new bookModel({
           id,
           title,
@@ -270,7 +267,7 @@ async (req, res) => {
 
 
 
-router.post("/addUser", async (req, res) => {
+router.post("/addUser", authenticateUser, async (req, res) => {
   try {
     console.log('adding user')
     console.log(req.body);
@@ -284,7 +281,7 @@ router.post("/addUser", async (req, res) => {
 
 
 
-router.get("/users", async (req, res) => {
+router.get("/users", authenticateUser, async (req, res) => {
   try {
     const users = await userModel.find();
 
@@ -310,7 +307,7 @@ router.get("/users", async (req, res) => {
 
 
 
-router.put("/updateUser", async (req, res) => {
+router.put("/updateUser", authenticateUser, async (req, res) => {
   try {
     console.log("updating");
     const { sid, ...updates } = req.body
@@ -321,9 +318,9 @@ router.put("/updateUser", async (req, res) => {
     console.log(updates);
 
     const user = await userModel.findOneAndUpdate(
-      { sid },         // find by sid
-      updates,         // apply updates
-      { new: true }    // return the updated user
+      { sid },
+      updates,
+      { new: true }
     )
 
     if (!user) {
@@ -338,7 +335,7 @@ router.put("/updateUser", async (req, res) => {
 
 
 
-router.delete("/deleteUser", async (req, res) => {
+router.delete("/deleteUser", authenticateUser, async (req, res) => {
   try {
     const { sid } = req.body;
     if (!sid) {

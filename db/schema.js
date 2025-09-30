@@ -30,7 +30,7 @@ const bookSchema = new mongoose.Schema({
     type: String,
     default: () => {
       const today = new Date()
-      return today.toISOString().split("T")[0] // YYYY-MM-DD
+      return today.toISOString().split("T")[0] 
     }
   },
   tags: {
